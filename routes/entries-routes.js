@@ -29,6 +29,8 @@ router.post(
 	[
 		check('name').not().isEmpty().withMessage('Name is required'),
 		check('email').isEmail().withMessage('Email is required'),
+		check('cardFrontImg').isEmpty(),
+		check('cardBackImg').isEmpty(),
 	],
 	entryController.createEntry
 );

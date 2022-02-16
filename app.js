@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const bodyParser = require('body-parser');
 const express = require('express');
 const HttpError = require('./models/http-errors');
@@ -37,6 +38,8 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use('/api/entries', entryRoutes);
 

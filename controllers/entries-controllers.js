@@ -85,7 +85,6 @@ const updateStatus = async (req, res, next) => {
 
 const createEntry = async (req, res, next) => {
 	const errors = validationResult(req);
-	console.log();
 
 	if (!errors.isEmpty()) {
 		console.log(errors);
@@ -94,6 +93,12 @@ const createEntry = async (req, res, next) => {
 
 	const { name, email, orderId } = req.body;
 
+	if (
+		req.files['cardFrontImg'].length < 1 ||
+		req.files['cardBackImg'].length < 1
+	) {
+		return next(new HttpError('Invalid Entry', 422));
+	}
 	const cardFrontImg = req.files['cardFrontImg'][0].filename;
 	const cardBackImg = req.files['cardBackImg'][0].filename;
 	let selfieImg = '';
