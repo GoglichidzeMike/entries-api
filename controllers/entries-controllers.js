@@ -9,8 +9,9 @@ const getEntries = async (req, res, next) => {
 	let entries;
 
 	try {
-		entries = await Entry.find();
+		entries = await Entry.find().sort({ createdAt: 'desc' });
 	} catch (error) {
+		console.log(error);
 		const err = new HttpError('something up cant get entries', 500);
 		return err;
 	}
@@ -46,9 +47,20 @@ const getEntriesByemail = async (req, res, next) => {
 // delet entry duh
 const deleteEntry = async (req, res, next) => {
 	const entryId = req.params.eid;
+	console.log(entryId);
+	let entry;
 
 	try {
-		await Entry.findByIdAndRemove(entryId);
+		entry = await Entry.findById(entryId);
+	} catch (err) {
+		const error = new HttpError('Cant find entry by that id.', 500);
+		return error;
+	}
+
+	console.log(entry);
+
+	try {
+		await entry.remove();
 	} catch (err) {
 		const error = new HttpError('something up cant delete entry by id', 500);
 		return error;
@@ -60,6 +72,7 @@ const deleteEntry = async (req, res, next) => {
 // update entry status
 const updateStatus = async (req, res, next) => {
 	const { entryId, status } = req.body;
+	console.log(entryId, status);
 	let entry = {};
 
 	try {
