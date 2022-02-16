@@ -6,14 +6,21 @@ const Entry = require('../models/entry');
 
 // get all entries
 const getEntries = async (req, res, next) => {
+	const { q = '' } = req.query;
+	const options = { $regex: q, $options: 'i' };
 	let entries;
 
 	try {
-		entries = await Entry.find().sort({ createdAt: 'desc' });
-	} catch (error) {
-		console.log(error);
-		const err = new HttpError('something up cant get entries', 500);
-		return err;
+		entries = await Entry.find({
+			$or: [
+				{ ['name']: options },
+				{ ['email']: options },
+				{ ['orderId']: options },
+			],
+		});
+	} catch (err) {
+		const error = new HttpError('something up cant get entry by id', 500);
+		return error;
 	}
 
 	res.json({
@@ -21,7 +28,7 @@ const getEntries = async (req, res, next) => {
 	});
 };
 
-// get entry by email;
+// get entries by email;
 const getEntriesByemail = async (req, res, next) => {
 	const email = req.params.email;
 	let entries = {};
