@@ -17,7 +17,7 @@ const getEntries = async (req, res, next) => {
 				{ ['email']: options },
 				{ ['orderId']: options },
 			],
-		});
+		}).sort('-createdAt');
 	} catch (err) {
 		const error = new HttpError('something up cant get entry by id', 500);
 		return error;
