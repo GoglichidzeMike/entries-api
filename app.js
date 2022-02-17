@@ -40,13 +40,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/test', (req, res) => {
-	res.json({ message: 'test works' });
+	res.json({ message: 'test test' });
 });
 
-app.use(
-	'/uploads/images',
-	express.static(path.join(__dirname, 'public/images'))
-);
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 app.use('/api/entries', entryRoutes);
 
