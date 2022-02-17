@@ -43,9 +43,12 @@ app.get('api/test', (req, res) => {
 	res.json({ message: 'test works' });
 });
 
-app.use('/uploads/images', express.static(path.join('uploads', 'images')));
+app.use('/uploads/images', express.static(__dirname + '/public/images'));
 
 app.use('/api/entries', entryRoutes);
+
+//
+//
 
 app.use((req, res, next) => {
 	const error = new HttpError('Route not found', 404);
