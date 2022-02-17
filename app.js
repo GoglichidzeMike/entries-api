@@ -39,17 +39,16 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('api/test', (req, res) => {
+app.get('/test', (req, res) => {
 	res.json({ message: 'test works' });
 });
 
-app.use(express.static(path.join(__dirname, 'uploads')));
-app.use('/uploads', express.static('uploads'));
+app.use(
+	'/uploads/images',
+	express.static(path.join(__dirname, 'public/images'))
+);
 
 app.use('/api/entries', entryRoutes);
-
-//
-//
 
 app.use((req, res, next) => {
 	const error = new HttpError('Route not found', 404);
