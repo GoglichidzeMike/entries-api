@@ -43,7 +43,8 @@ app.get('api/test', (req, res) => {
 	res.json({ message: 'test works' });
 });
 
-app.use('/uploads/images', express.static(__dirname + '/public/images'));
+app.use(express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 
 app.use('/api/entries', entryRoutes);
 
